@@ -33,7 +33,7 @@ header {
 }
 
 .searchBox {
-  width: 20rem;
+  width: 25rem;
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
@@ -78,3 +78,17 @@ header {
 /* rect {
   background: #f4a261;
 } */
+
+@media only screen and (max-width: 500px) {
+.searchBox {
+   /* margin: 5px; */
+   width: 15rem;
+   margin-bottom: 0;
+}
+.btn{
+  width: 5rem;
+}
+.chart{
+  margin:0 0;
+}
+}
