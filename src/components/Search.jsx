@@ -1,4 +1,4 @@
-export default () => {
+export default function Search(){
   return (
     <div className="center">
       <input
