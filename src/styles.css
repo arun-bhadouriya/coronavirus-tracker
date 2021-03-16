@@ -19,6 +19,7 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  font-family: "Montserrat", sans-serif;
   /* overflow-x: hidden; */
 }
 
@@ -28,7 +29,7 @@ header {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   padding: 1rem;
-  color: #81d4fa;
+  color: #81d4face;
   letter-spacing: 0.05em;
 }
 
@@ -38,7 +39,7 @@ header {
   padding: 10px;
   border-radius: 10px;
   border: 0.1em solid #264653;
-  background-color:#81d4fa ;
+  background-color:#81d4face ;
   color: #264653;
   margin-bottom: 5rem;
 }
@@ -61,7 +62,7 @@ header {
 
 .btn {
   color: #264653;
-  background-color: #81d4fa;
+  background-color: hsla(199, 92%, 74%, 0.808);
   border: 0.1em solid #264653;
   margin: 0;
   width: 5em;
@@ -89,6 +90,6 @@ header {
   width: 5rem;
 }
 .chart{
-  margin:0 0;
+  margin:0;
 }
 }

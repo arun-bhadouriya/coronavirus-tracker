@@ -15,7 +15,7 @@
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
     <!-- <link rel="stylesheet" href="../src/styles.css"> -->
-    <title>React App</title>
+    <title>Corona tracker</title>
   </head>
 
   <body>
@@ -31,6 +31,9 @@
       let chartArrayData = [];
       chartArrayData.push(["Country", "ActiveCases"]);
 
+      let barData = []
+      barData.push(["Country","Active cases",{ role: 'style' }])
+
       //fetching countryCorona Cases data
       fetch("https://api.apify.com/v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true")
         .then((res)=>res.json())
@@ -38,21 +41,27 @@
           console.log(data)
           data.forEach((d)=>{
             chartArrayData.push([d.country,d.infected])
+            barData.push([d.country,d.infected,"height:15px"])
           })
+          
           google.charts.load("current", {
         packages: ["geochart"],
         // Note: you will need to get a mapsApiKey for your project.
         // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
         mapsApiKey: "AIzaSyCh3vyWsU-BtbvdCQn7XE7w8YCr4YnBmOU"
       });
-      google.charts.setOnLoadCallback(drawRegionsMap);
+        google.charts.setOnLoadCallback(drawRegionsMap);
 
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart);
+console.log(barData)
       function drawRegionsMap() {
         var data = google.visualization.arrayToDataTable(chartArrayData);
 
         var options = {
           // region:"IN",
           width:"100%",
+          title:"Coronavirus cases in various countries (interact by clicing on the map)",
           height:"100%",
           colorAxis: {colors:['gray','red','blue']},
           // backgroundColor: '#f4a261',
@@ -81,9 +90,50 @@
           defaultColor: '#f5f5f5',
         })
       }
-        });
 
-        console.log(chartArrayData);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable(barData);
+
+      var view = new google.visualization.DataView(data);
+      // view.setColumns([0, 1,
+      //                  { calc: "stringify",
+      //                    sourceColumn: 1,
+      //                    type: "string",
+      //                    role: "annotation" },
+      //                  2]);
+
+        var options = {
+          title: 'Corona ActiveCases',
+          width: "100%",
+          height: "1000px",
+          backgroundColor: 'blue',
+          legend: { position: 'none' ,alignment:"center"},
+          chart: { title: 'Corona ActiveCases',
+                   subtitle: 'Active Cases in Millions' },
+          bars: 'horizontal', // Required for Material Bar Charts.
+          // axes: {
+          //   x: {
+          //     0: { side: 'top', label: 'Percentage'} // Top x-axis.
+          //   }
+          // },
+          bar: { groupWidth: "100%"  },
+          chartArea:{left:20,top:0,width:'50%',height:'10000000px'},
+          series: {
+              0: {
+                annotations: {
+                  textStyle: {fontSize: 500, color: 'red' }
+                }
+              }
+            },
+            vAxis:{title: 'Hello', titleTextStyle: {color: '#FF0000'}},
+            isStacked: true
+        };
+        var chart = new google.charts.Bar(document.getElementById('barchart_values'));
+        chart.draw(data, options);
+    }    
+    });
+
+        // console.log(chartArrayData);
 
       // fetch(url)
       //   .then((res) => res.json())
@@ -119,13 +169,7 @@
     <script type="text/javascript">
       
     </script>
-    <!-- <script>
-      let x = document.getElementById("piechart");
-      x.firstElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling.setAttribute(
-        "fill",
-        "#f4a261"
-      );
-    </script> -->
+   
   </body>
 </html>
 

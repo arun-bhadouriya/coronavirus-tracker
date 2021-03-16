@@ -10,6 +10,7 @@ export default function App() {
       <Search />
       <Chart region="WORLD"/>
       <Chart region="IN" />
+      <Chart region="barchart_values"/>
     </div>
   );
 }
