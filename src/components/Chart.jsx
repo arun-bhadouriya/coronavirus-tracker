@@ -1,9 +1,6 @@
-// const coustomStyles = {
-//   // backgroun
-// };
+
 import React from "react"
 
-export default (props) => {
-  const id = `${props.region}`
-  return <div id={id} className="chart"></div>;
+export default function Chart(props){
+  return <div id={props.region} className="chart"></div>;
 };
