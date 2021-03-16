@@ -2,42 +2,179 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
     <meta
-      name="description"
-      content="Web site created using create-react-app"
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="theme-color" content="#000000" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <!-- <link rel="stylesheet" href="../src/styles.css"> -->
     <title>React App</title>
   </head>
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <script type="text/javascript">
+    const API_KEY="AIzaSyCh3vyWsU-BtbvdCQn7XE7w8YCr4YnBmOU"
+      const url =
+        "https://api.apify.com/v2/key-value-stores/toDWvRj1JpTXiM8FF/records/LATEST?disableRedirect=true";
+      let chartArrayData = [];
+      chartArrayData.push(["Country", "ActiveCases"]);
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      //fetching countryCorona Cases data
+      fetch("https://api.apify.com/v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true")
+        .then((res)=>res.json())
+        .then((data)=>{
+          console.log(data)
+          data.forEach((d)=>{
+            chartArrayData.push([d.country,d.infected])
+          })
+          google.charts.load("current", {
+        packages: ["geochart"],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        mapsApiKey: "AIzaSyCh3vyWsU-BtbvdCQn7XE7w8YCr4YnBmOU"
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(chartArrayData);
+
+        var options = {
+          // region:"IN",
+          colorAxis: {colors:['gray','red','blue']},
+          // backgroundColor: '#f4a261',
+          backgroundColor: '#81d4fa',
+          datalessRegionColor: '#f8bbd0',
+          defaultColor: '#f5f5f5',
+      };
+
+        var chart = new google.visualization.GeoChart(
+          document.getElementById("WORLD")
+        );
+
+        chart.draw(data, options);
+        
+        var chart2 = new google.visualization.GeoChart(
+          document.getElementById("IN")
+        )
+        chart2.draw(data,{
+          region:"IN",
+          colorAxis: {colors:['gray','red','blue']},
+          // backgroundColor: '#f4a261',
+          backgroundColor: '#81d4fa',
+          datalessRegionColor: '#f8bbd0',
+          defaultColor: '#f5f5f5',
+        })
+      }
+        });
+
+        console.log(chartArrayData);
+
+      // fetch(url)
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     data.regionData.forEach((r) => {
+      //       chartArrayData.push([r.region, r.totalInfected]);
+      //       console.log(data.regionData.length);
+      //     });
+      //   });
+      //   google.charts.load("current", {
+      //   packages: ["geochart"],
+      //   // Note: you will need to get a mapsApiKey for your project.
+      //   // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+      //   mapsApiKey: "AIzaSyCh3vyWsU-BtbvdCQn7XE7w8YCr4YnBmOU"
+      // });
+      // google.charts.setOnLoadCallback(drawRegionsMap);
+
+      // function drawRegionsMap() {
+      //   var data = google.visualization.arrayToDataTable(chartArrayData);
+
+      //   var options = {};
+
+      //   var chart = new google.visualization.GeoChart(
+      //     document.getElementById("regions_div")
+      //   );
+
+      //   chart.draw(data, options);
+      // }
+      
+    </script>
+
+    <script type="text/javascript">
+      
+    </script>
+    <!-- <script>
+      let x = document.getElementById("piechart");
+      x.firstElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling.setAttribute(
+        "fill",
+        "#f4a261"
+      );
+    </script> -->
   </body>
 </html>
+
+
+
+
+<!-- ["Algeria", 115410],
+["Austria", 493958],
+["Azerbaijan", 240671],
+["Bahrain", 131683],
+["Belgium", 809861],
+["Brazil", 11519609],
+["Bulgaria", 283194],
+["Canada", 913047],
+["China", 90062],
+ ["Croatia", 0],
+ ["Czech Republic", 1402420],
+ ["Denmark", 198472],
+ ["Estonia", 86086],
+ ["Finland", 67334],
+ ["France", 4078133],
+ ["Germany", 2575849],
+ ["Honduras", 177168],
+ ["Hungary", 524196],
+ ["India", 11409831],
+ ["Iran", 1754933],
+ ["Italy", 3238394],
+ ["Japan", 448000],
+["Kosovo", 12683],
+["Lithuania", 249],
+["Luxembourg", 57503],
+["Malaysia", 317717],
+["Netherlands", 1178501],
+["Nigeria", 160895],
+["Norway", 80440],
+["Pakistan", 0],
+["Palestine", 238890],
+["Philippines", 626893],
+["Poland", 1917527],
+["Portugal", 814513],
+["Romania", 862681],
+["Russia", 4400045],
+["Saudi Arabia", 382752],
+["Serbia", 520911],
+["Singapore", 60117],
+["Slovakia", 337960],
+["Slovenia", 199833],
+["South Korea", 96380],
+["Spain", 3195062],
+["Sweden", 712527],
+["Switzerland", 573815],
+["Turkey", 2894893],
+["United Kingdom", 4263527],
+["United States", 29269590],
+["Vietnam", 2559], -->
+
